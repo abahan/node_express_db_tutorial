@@ -44,18 +44,36 @@ app.get('/api/lessons/:id', (req, res) => {
 });
 
 app.delete('/api/lessons/:id', (req, res) => {
-    const {id} = req.params;
-    lessons.remove(id).then(count => { 
+    const { id } = req.params;
+    lessons.remove(id).then(count => {
         if (count > 0) {
             res.status(200).json({ message: "lesson successfully deleted." });
         } else {
             res.status(404).json({ message: "Unable to locate record." });
         }
-       
-    }).catch(err => {   
+
+    }).catch(err => {
         res.status(500).json({ message: "unable to remove lesson" });
     });
+
 });
+
+app.patch('/api/lessons/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+    lessons.update(id, changes).then(lesson => {
+        if (lesson) {
+            res.status(200).json(lesson);
+        } else {
+            res.status(404).json({ message: "Unable to locate record." });
+        }
+
+    }).catch(err => {
+        res.status(500).json({ message: "Error in the operation!" });
+    });
+});
+
+
 
 
 
