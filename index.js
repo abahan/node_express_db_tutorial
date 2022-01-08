@@ -109,7 +109,31 @@ app.post("/api/lessons/:id/messages", (req, res) => {
 
 });
 
+app.get("/api/lessons/:id/messages", (req, res) => {
+    const { id } = req.params;
+    lessons.findLessonMessages(id)
+    .then(lesson => {
+        res.status(200).json(lesson);
+    })
+    .catch(err => {
+        res.status(500).json({ message: "Error finding lesson!" });
+    });
+})
 
 
+app.delete("/api/messages/:id", (req, res) => {
+    const { id } = req.params;
+    lessons.removeMessage(id)
+    .then(count => {
+        if (count > 0) {
+            res.status(200).json({ message: `Message with id ${id} successfully deleted` });
+        } else {
+            res.status(404).json({ message: "Error Retreaving messages!" });
+        }
+    })
+    .catch(err => {
+        res.status(500).json({ message: "Error deleting messages!" });
+    });
+});
 
 app.listen(PORT, () => { "Sever is running on port " + PORT });

@@ -9,7 +9,9 @@ module.exports = {
   findById,
   remove,
   update,
-  addMessage
+  addMessage,
+  findLessonMessages,
+  removeMessage
 };
 // add, find, findById, update, remove
 
@@ -59,4 +61,23 @@ async function addMessage(message, lesson_id) {
     .where({ lesson_id: lesson_id })
     .insert(message).returning('id');
   return findMessageById(id[0]);/// id alone will be an array
+}
+
+function findLessonMessages(lesson_id) {
+  return db('lessons as l')
+  .join('messages as m', 'l.id', 'm.lesson_id')
+  .select('l.id as LessonID',
+   'l.name as LessonName',
+    'm.id as MessageID',
+    'm.sender',
+    'm.text'
+    ).where({lesson_id: lesson_id})
+    
+}
+
+ function removeMessage(id) {
+  return  db('messages')
+    .where({ id: id })
+    .del();
+   
 }
