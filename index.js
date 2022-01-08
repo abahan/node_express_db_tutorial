@@ -74,7 +74,40 @@ app.patch('/api/lessons/:id', (req, res) => {
 });
 
 
+app.post("/api/lessons/:id/messages", (req, res) => {
+    const { id } = req.params;
+    const msg = req.body;
+    if (!msg.lesson_id) {
+        msg.lesson_id = parseInt(id, 10); // id here is string, we need to make it integer. so use parseInt and base 10
 
+        //msg["lesson_id"] = parseInt(id,10); another way to access the id column
+    }
+    lessons.findById(id)
+        .then(lesson => {
+            if (!lesson) {
+                res.status(404).json({ message: "Invalid id" });
+            }
+            // check for all the required fields
+            if (!msg.sender || !msg.text) {
+                res.status(400).json({ message: "Must provide both Sender and Text values" });
+            }else{
+
+            lessons.addMessage(msg, id)
+                .then(message => {
+                    if (message) {
+                        res.status(200).json(message);
+                    }
+                })
+                .catch(err => {
+                    res.status(500).json({ message: "Failed to add message" });
+
+                });
+        }})
+        .catch(err => {
+            res.status(500).json({ message: "Error finding lesson!" });
+        });
+
+});
 
 
 

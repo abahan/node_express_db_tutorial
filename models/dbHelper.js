@@ -8,7 +8,8 @@ module.exports = {
   find,
   findById,
   remove,
-  update
+  update,
+  addMessage
 };
 // add, find, findById, update, remove
 
@@ -44,4 +45,18 @@ function update(id, changes) {
       return findById(id);
     }));
 
+}
+
+function findMessageById(id) {
+
+  return db('messages')
+    .where({ id: id })
+    .first();
+}
+
+async function addMessage(message, lesson_id) {
+  const id = await db('messages')
+    .where({ lesson_id: lesson_id })
+    .insert(message).returning('id');
+  return findMessageById(id[0]);/// id alone will be an array
 }

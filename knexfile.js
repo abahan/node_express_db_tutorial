@@ -12,11 +12,7 @@ module.exports = {
       port: process.env.POSTGRES_PORT
     },
     useNullAsDefault: true,
-    pool: {
-      afterCreate: (conn, done) => {
-        conn.run('PARAGMA foreign_keys = ON', done);
-      }
-    }
+    
   }
 
 
