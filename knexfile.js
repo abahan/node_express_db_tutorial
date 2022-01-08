@@ -1,18 +1,23 @@
 // Update with your config settings.
-require('dotenv').config({path:"process.env"});
+require('dotenv').config({ path: "process.env" });
 module.exports = {
 
   development: {
     client: 'pg',
     connection: {
-      host : process.env.POSTGRES_HOST,
-      user : process.env.POSTGRES_USER,
-      password : process.env.POSTGRES_PASSWORD,
-      database : process.env.POSTGRES_DB,
-      port : process.env.POSTGRES_PORT
+      host: process.env.POSTGRES_HOST,
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB,
+      port: process.env.POSTGRES_PORT
     },
     useNullAsDefault: true,
+    pool: {
+      afterCreate: (conn, done) => {
+        conn.run('PARAGMA foreign_keys = ON', done);
+      }
+    }
   }
-  
+
 
 };
