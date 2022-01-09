@@ -1,7 +1,9 @@
 // where we write our knex queries
-const knex = require('knex');
-const config = require('../knexfile'); // this is the knexfile.js
-const db = knex(config.development); // this is the development part in knexfile.js
+// const knex = require('knex');
+// const config = require('../knexfile'); // this is the knexfile.js
+// const db = knex(config.development); // this is the development part in knexfile.js
+
+const db = require('../dbConfig');
 
 module.exports = {
   add,

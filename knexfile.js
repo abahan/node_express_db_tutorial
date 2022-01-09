@@ -4,6 +4,7 @@ module.exports = {
 
   development: {
     client: 'pg',
+    useNullAsDefault: true,
     connection: {
       host: process.env.POSTGRES_HOST,
       user: process.env.POSTGRES_USER,
@@ -11,9 +12,9 @@ module.exports = {
       database: process.env.POSTGRES_DB,
       port: process.env.POSTGRES_PORT
     },
-    useNullAsDefault: true,
-    
+    production: {
+      //
+    }
+
   }
-
-
 };
