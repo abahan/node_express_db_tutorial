@@ -68,8 +68,9 @@ async function addMessage(message, lesson_id) {
 
   return await db('messages')
     .where({ lesson_id: lesson_id })
-    .insert(message,['id']);
+    .insert(message, ['id']);
   
+}
 
 function findLessonMessages(lesson_id) {
   return db('lessons as l')
