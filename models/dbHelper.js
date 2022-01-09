@@ -18,8 +18,10 @@ module.exports = {
 // add, find, findById, update, remove
 
 async function add(lesson) {
-  const id = await db('lessons').insert(lesson).returning('id');
-  return findById(id[0]);/// id alone will be an array
+  // const id = await db('lessons').insert(lesson).returning('id');
+  // return findById(id[0]);/// id alone will be an array
+
+  return await db('lessons').insert(lesson,['id', 'name']);  
 }
 
 function find() {
@@ -59,11 +61,15 @@ function findMessageById(id) {
 }
 
 async function addMessage(message, lesson_id) {
-  const id = await db('messages')
+  // const id = await db('messages')
+  //   .where({ lesson_id: lesson_id })
+  //   .insert(message).returning('id');
+  // return findMessageById(id[0]);/// id alone will be an array
+
+  return await db('messages')
     .where({ lesson_id: lesson_id })
-    .insert(message).returning('id');
-  return findMessageById(id[0]);/// id alone will be an array
-}
+    .insert(message,['id']);
+  
 
 function findLessonMessages(lesson_id) {
   return db('lessons as l')
