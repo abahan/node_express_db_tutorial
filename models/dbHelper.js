@@ -13,7 +13,10 @@ module.exports = {
   update,
   addMessage,
   findLessonMessages,
-  removeMessage
+  removeMessage,
+  addUser,
+  findAllUsers,
+  findUserByUsername
 };
 // add, find, findById, update, remove
 
@@ -89,4 +92,27 @@ function findLessonMessages(lesson_id) {
     .where({ id: id })
     .del();
    
+}
+
+
+//////////////     USER TABLE    ///////////////////////////////////////////////////////////
+
+
+
+
+
+async function addUser(user) {
+
+  return await db('users').insert(user,['id', 'username']);  
+}
+
+function findAllUsers() {
+
+  return db('users');
+}
+
+function findUserByUsername(username) {
+
+  return db('users').where({username: username}).first();
+  
 }
