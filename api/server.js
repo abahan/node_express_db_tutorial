@@ -5,8 +5,10 @@ const messageRouter = require('../Routes/messages-routes');
 const authRouter = require('../auth/auth-routes');
 const userRouter = require('../Routes/users-routes');
 const restricted = require('../auth/restricted-middleware');
+const path = require('path');
 
 const app = express();
+app.use(express.static(path.join(__dirname, '../public')));
 
 const sessionConfig = {
     name: 'monster', // cookie name
@@ -25,7 +27,8 @@ app.use(express.json());
 app.use(session(sessionConfig));
 
 app.get('/', (req, res) => {
-    res.json({ message: "server working!" });
+    //res.json({ message: "server working!" });
+    res.sendFile(__dirname + '/index.html');
 });
 
 app.use('/api/auth', authRouter);

@@ -1,9 +1,11 @@
 const express = require('express');
+const https = require('https');
 const users = require('../models/dbHelper');
 const bcjs = require('bcryptjs');
+const bodyParser = require('body-parser');
 
 const router = express.Router();
-
+router.use(bodyParser.urlencoded({extended: false}));
 // all endpoints are for /api/users/
 
 router.post('/register', (req, res) => {
@@ -27,10 +29,10 @@ router.post('/register', (req, res) => {
 
 });
 
-router.post('/login', (req, res) => {
+router.post('/login',(req, res) => {
     const { username, password } = req.body;
     if (!(username && password)) {
-        return res.status(400).json({ message: "username and password do not exist" });
+        return res.status(400).json({ message: "username and password do not exist "+ username});
     }
     users.findUserByUsername(username)
     .then(user => {
@@ -49,6 +51,20 @@ router.post('/login', (req, res) => {
     }).catch(err => {
         res.status(500).json({ message: `cannot find user : ${err}` });
     });
+});
+
+router.get('/logout', (req, res) => {
+    if (req.session) {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ message: "cannot logout" });
+        } else {
+        res.status(200).json({ message: "successfully logout" });
+    };
+    })
+   }else {
+       res.status(200).json({ message: "Not logged in " });
+   }
 });
 
 module.exports = router;
