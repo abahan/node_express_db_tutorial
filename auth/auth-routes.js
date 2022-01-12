@@ -17,7 +17,7 @@ router.post('/register', (req, res) => {
     
     const hash = bcjs.hashSync(credentials.password, 10);
     credentials.password = hash;
-    return res.status(200).json({"username": username, "password": password});
+    return res.status(200).json(credentials);
     users.addUser(credentials)
         .then(user => {
             res.status(200).json(user);
