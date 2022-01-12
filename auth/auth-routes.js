@@ -14,9 +14,10 @@ router.post('/register', (req, res) => {
     if (!(username && password)) {
         return res.status(400).json({ message: "Please provide username and password" });
     }
-    return res.status(200).json({"username": username, "password": password});
+    
     const hash = bcjs.hashSync(credentials.password, 10);
     credentials.password = hash;
+    return res.status(200).json({"username": username, "password": password});
     users.addUser(credentials)
         .then(user => {
             res.status(200).json(user);
