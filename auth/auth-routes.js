@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({extended: false}));
-// all endpoints are for /api/users/
+//// all endpoints are for /api/users/
 
 router.post('/register', (req, res) => {
     const credentials = req.body;
