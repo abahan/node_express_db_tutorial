@@ -1,9 +1,17 @@
+const jwt = require('jsonwebtoken');
 module.exports = (req, res, next) => {
-    console.log('session object: ', req.session);
-    
-    if (req.session.user && req.session.user) {
-        next();
+    const token = req.headers.authorization;
+    const secret = process.env.SESSION_SECRET;
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            if (err) {
+                res.status(401).json({ message: "Invalid token received" });
+            } else {
+                req.decodedToken = decodedToken;
+                next();
+            }
+        });
     } else {
-        res.status(401).json({ message: "Unauthorized" });
+        res.status(401).json({ message: "No token received" });
     }
 } ;
